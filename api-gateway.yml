@@ -13,8 +13,6 @@ spring:
           uri: lb://ORDER
           predicates:
             - Path=/inventory/**
-          filters:
-            - StripPrefix=1
 
 eureka:
   client:
