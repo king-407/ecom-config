@@ -1,1 +1,22 @@
 
+spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: inventory
+              uri: lb://INVENTORY
+              predicates:
+                - Path=/orders/**
+              filters:
+                - name: LoggingOrdersFilter
+            - id: order
+              uri: lb://ORDER
+              predicates:
+                - Path=/inventory/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
