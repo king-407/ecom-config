@@ -1,19 +1,21 @@
 spring:
   cloud:
     gateway:
-      server:
-        webflux:
-          routes:
-            - id: inventory
-              uri: lb://INVENTORY
-              predicates:
-                - Path=/orders/**
-              filters:
-                - name: LoggingOrdersFilter
-            - id: order
-              uri: lb://ORDER
-              predicates:
-                - Path=/inventory/**
+      routes:
+        - id: inventory
+          uri: lb://INVENTORY
+          predicates:
+            - Path=/orders/**
+          filters:
+            - name: LoggingOrdersFilter
+            - RewritePath=/orders/(?<segment>.*), /inventory/${segment}
+
+        - id: order
+          uri: lb://ORDER
+          predicates:
+            - Path=/inventory/**
+          filters:
+            - StripPrefix=1
 
 eureka:
   client:
