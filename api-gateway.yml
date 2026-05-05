@@ -1,18 +1,21 @@
 spring:
+  application:
+    name: api-gateway
   cloud:
     gateway:
-      routes:
-        - id: inventory
-          uri: lb://INVENTORY
-          predicates:
-            - Path=/orders/**
-          filters:
-            - name: LoggingOrdersFilter
-
-        - id: order
-          uri: lb://ORDER
-          predicates:
-            - Path=/inventory/**
+      server:
+        webflux:
+          routes:
+            - id: inventory
+              uri: lb://INVENTORY
+              predicates:
+                - Path=/orders/**
+              filters:
+                - name: LoggingOrdersFilter
+            - id: order
+              uri: lb://ORDER
+              predicates:
+                - Path=/inventory/**
 
 eureka:
   client:
