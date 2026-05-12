@@ -16,3 +16,7 @@ spring:
               uri: lb://ORDER
               predicates:
                 - Path=/inventory/**
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka
